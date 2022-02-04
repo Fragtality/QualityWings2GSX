@@ -68,6 +68,10 @@
       <Link>.editorconfig</Link>
     </None>
     <None Include="App.config" />
+    <None Include="CopyToP3D.ps1" />
+    <None Include="FSUIPC6\GSX_AUTO.lua" />
+    <None Include="FSUIPC6\QW787_SYNC.lua" />
+    <None Include="Kill.ps1" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
