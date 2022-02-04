@@ -1,0 +1,4 @@
+﻿[*.{cs,vb}]
+
+# IDE0047: Unnötige Klammern entfernen
+dotnet_diagnostic.IDE0047.severity = none

@@ -1,0 +1,1 @@
+Stop-Process -Name "QualityWings2GSX" -ErrorAction SilentlyContinue

@@ -1,0 +1,27 @@
+<OFP>
+	<params>
+		<units>kgs</units>
+	</params>
+	<general>
+		<icao_airline>DLH</icao_airline>
+		<flight_number>825</flight_number>
+	</general>
+  <origin>
+    <icao_code>EDDF</icao_code>
+  </origin>
+  <destination>
+    <icao_code>EKCH</icao_code>
+  </destination>
+	<aircraft>
+		<name>B787-9</name>
+	</aircraft>
+	<fuel>
+		<plan_ramp>11428</plan_ramp>
+	</fuel>
+	<weights>
+		<pax_count>198</pax_count>
+		<bag_count>198</bag_count>
+		<pax_weight>86.183</pax_weight>
+		<bag_weight>24.948</bag_weight>
+	</weights>
+</OFP>

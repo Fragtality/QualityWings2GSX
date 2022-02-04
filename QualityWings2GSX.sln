@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32002.261
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QualityWings2GSX", "QualityWings2GSX\QualityWings2GSX.csproj", "{B57D8465-0ACD-474F-B5C1-61A463701DF5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8F3D3BE5-5597-430B-A90C-F905E7F6543D}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B57D8465-0ACD-474F-B5C1-61A463701DF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B57D8465-0ACD-474F-B5C1-61A463701DF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B57D8465-0ACD-474F-B5C1-61A463701DF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B57D8465-0ACD-474F-B5C1-61A463701DF5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {136E27D6-99BB-4BDC-9CFA-08CA4A468DF7}
+	EndGlobalSection
+EndGlobal
