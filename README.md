@@ -5,12 +5,12 @@ If this Toolset is of interest to you, can be answered easily by yourself:
 - Wished that the Ground- and Cabin-Crew would just take care of the Doors, instead you "leaving" the Cockpit to open/close all that Doors?
 - Wished the Jetway/GPU would just automatically be called / removed, the Chocks being set / removed and External Power connected / disconnected?<br/>
 
-So if the Answer is 'yes' to any of these Questions: Here is a tool you might want to try out :wink:<br/>But before getting to excited, here the caveat: you need a registered Version of FSUIPC to use it!<br/><br/>
+So if the Answer is 'yes' to any of these Questions: Here is a tool you might want to try out :wink:<br/>But before getting to excited, here the caveat: you need a registered Version of FSUIPC to use the whole Toolset!<br/><br/>
 
 Since you're still interested, here the Features of the individual Tools/Scripts contained in this Toolset:
-- An external Program (*QualityWings2GSX*) which will read your current SimBrief OFP and uses the Fuel Weights, Passenger and Bag Count (and their configured Weight in SimBrief) to progressively Refuel, Board and Deboard the Plane. It will set these Values in / use the Values with GSX so that the Refuel, Board and Deboard Animation is "in synch" with your OFP Data.<br/>It does not matter if your OFP is in kgs or lbs, if your APU is running or not and it is "turn-around-safe": After being deboarded the new OFP will be loaded and used for the next Refuel, Board and Deboard Cycle.
+- An external Program (*QualityWings2GSX*) which will read your current SimBrief OFP and uses the Fuel Weights, Passenger and Bag Count (and their configured Weight in SimBrief) to progressively Refuel, Board and Deboard the Plane. It will set these Values in / use the Values with GSX so that the Refuel, Board and Deboard Animation is "in synch" with your OFP Data.<br/>It does not matter if your OFP is in kgs or lbs, if your APU is running or not and it is "turn-around-safe": After being deboarded the new OFP will be loaded and used for the next Refuel, Board and Deboard Cycle. It uses FSUIPC (C# Client) to communicate with the Sim/GSX/Plane.
 - A small "GSX Lua Library" (*GSX_AUTO*) which can also be used for other Planes - it does the GSX Menu Handling and some Automation. The Functions can be called with "LuaToggles" via FSUIPC. Or from your StreamDeck - when used together with PilotsDeck you can display the current (De-)Boarding and Cargo (Un-)Loading Progress and what is the current State / Service that can be called.
-- A Lua Script to automate the Ground-Service Handling (*QW787_SYNC*) for the QualityWings 787. It opens / closes the respective Doors as requested from GSX, automatically after Boarding is completed or when the Cargo (Un-)Loading is finished. It will set / remove the Chocks & External Power and will move the Jetway/GPU automatically for you.
+- A Lua Script to automate the Ground-Service Handling (*QW787_SYNC*) for the QualityWings 787. It opens / closes the respective Doors as requested from GSX, automatically after Boarding is completed or when the Cargo (Un-)Loading is finished. It will set / remove the Chocks & External Power and will move the Jetway/GPU automatically for you.<br/><br/>
 
 # Installation
 ## QualityWings2GSX
@@ -38,7 +38,7 @@ If you don't have a FSUIPC Profile for the QW787, start them as "Global"/"Defaul
 2=Lua QW787_SYNC
 ```
 If you plan to use the GSX_AUTO Script with other Planes, it has to be started as "Global"/"Default" Auto-Script!<br/>
-If you're using the PilotsDeck Profile I have published: add the QW787_AUTO as second Script (GSX_AUTO -> QW787_AUTO -> QW787_SYNC)<br/>
+If you're using the PilotsDeck Profile I have published: add the QW787_AUTO as second Script (GSX_AUTO -> QW787_AUTO -> QW787_SYNC)<br/><br/>
 
 # Configuration
 ## QualityWings2GSX / SimBrief / GSX
@@ -46,7 +46,22 @@ If you're using the PilotsDeck Profile I have published: add the QW787_AUTO as s
 The most important Settings you have to set are your SimBrief's **Pilot ID** (look it up [here](https://www.simbrief.com/system/profile.php#settings)) and the Maximums for the Fuel-Tanks.<br/>
 If you're not aware: there is a Discrepancy with the QW787 showing different Maximums for the Fuel-Quantity (or specifically Quantity-to-Weight-Ratios). The EFB and Dispatcher will report a higher Capacity than actually configured in the aircraft.cfg. This is not an Issue when using the EFB - 100% there will give you 100%. But when other Programs (GSX, my Tool) set the Tanks to 100% the EFB will report ~97% and EICAS a lower than expected Fuel-Weight. So you have two Options:
 - (Recommended) Modify the aircraft.cfg (all three Variants) to use the Maximum Values configured in the Tool (so it everything is "aligned" to the same Maximums). It is *5737* gallons for the Wings and *23278* for the Center. The Maximum fuel Capacity to be used in SimBrief is *232809* lbs then.
-- If you're not willing or don't want to modify the aircraft.cfg, modify the .config File of the Tool to use whatever you have in your aircraft.cfg - by Default it is *5570* gallons for the Wings and *22470* for the Center.<br/>
+- If you're not willing or don't want to modify the aircraft.cfg, modify the .config File of the Tool to use whatever you have in your aircraft.cfg. By Default it is *5570* gallons for the Wings and *22470* for the Center.<br/><br/>
+
+The Tool is configured through the QualityWings2GSX.config File. Make sure you keep the XML-Syntax intact or else the Tool won't start!
+- **pilotID**: Set this to your SimBrief Pilots ID!
+- **constMaxWing**: Set this to the Value from your aircraft.cfg!
+- **constMaxCenter**: Set this to the Value from your aircraft.cfg!
+- *simbriefURL*: SimBrief's URL to fetch the current OFP in XML-Format. Is already set, needs only to be changed if SimBrief should change the URL.
+- *fmsPath*: If you want the RTE File for that OFP directly downloaded to your FMS, set the Full Path here (typically <Path-to-P3D>\QualityWings\QW787\FlightPlans). If you don't want/need the RTE File or use SimBrief Downloader for that - just leave it empty!
+- *useActualValue*: The SimBrief OFP has planned and actual Passenger/Bag Counts. The Tool is set to use the actual Value, so there is sometimes Variation. If you always want the planned Number, set it to false.
+- *noCrewBoarding*: The Tool will disable GSX' Simulation to (De)Board the Pilots and Crew by default. If you want that to happen, set it to false.
+- *constGPS*: It the Gallons-Per-Second the Plugin to simulate the Refueling. By default it is 16.5 gal/s which is 990 gal/min (the fastest Truck/Pump from GSX is 1000 gal/min, the slowest 800 gal/min). Or in "metric-speak": it is ~50kg/s which gives you 0.1t every 2 Seconds :wink:<br/>
+Note that this is the *total* flow, it will be split across the Tanks (depending on how many need to be filled)! The Wings will be primarly filled, everything above their Capacity goes to Center. So if you do a "Short-Haul" only 2 Tanks will be filled in parallel (Wings), for a "Long-Haul" all 3 Tanks will be filled in parallel and when the Wings are full, the Center will be filled with the full flow.<br/>
+Also note that this Value scales with (P3D's) Time Acceleration, so when using 2x Acceleration the Refueling will be twice as fast. The GSX Time Acceleration has no Effect on the Tools' Refuel Process.
+- *constPaxDashX*: The Number Seats in Business;Economy for the given Variant. Already set to QW's Defaults.
+- all other const Variables don't need and should not be touched - they are really constant Constants :laugh:
+  
 ### SimBrief
 Configure the Plane in SimBrief with **lbs** - even when you use only OFP's in kgs! The Passenger-Weight to be used is 190lbs and Bag-Weight is 55lbs. Whichever option you choose for the Fuel-Capacity: use the Total Capacity in gallons from your aircraft.cfg, multiply it with *6.69921875* and use the Result as the Max Fuel Capacity in SimBrief.
 ### GSX
