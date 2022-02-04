@@ -21,23 +21,60 @@ The Tool is intended to being started when the Sim is running and the QualityWin
 RunIf1=READY,KILL,X:\Path\to\the\Installation-Folder\QualityWings2GSX.exe
 ```
 It will then be automatically started (and stopped) by FSUIPC when FSUIPC/the Sim is ready for Requests/Processing. With that Mechanic it will be loaded for every Plane, but don't worry: it closes immediately when the loaded Plane isn't a QW787.
+## GSX_AUTO + QW787_SYNC
+- Place the Files from the FSUIPC6 Folder in your FSUIPC6 Addon-Folder (the Folder where your FSUIPC6.ini is located)
+- Either start the Scripts (Auto + Sync) manually ...
+- ... or add them as Auto-Scripts to your FSUIPC6.ini. Start P3D/FSUIPC6 once so the Files are added (if you're not familiar with adding them manually). Then add the following to your FSUIPC6.ini:<br/>
+```
+[Auto.QW787]
+1=Lua GSX_AUTO
+2=Lua QW787_SYNC
+```
+Assuming your FSUIPC Profile is named "QW787"! Replace that with the correct Name. If already using Auto-Scripts, change the Numbers accordingly (these Scripts don't need to be run first - but these two in this Order!).<br/>
+If you don't have a FSUIPC Profile for the QW787, start them as "Global"/"Default" Auto-Scripts:
+```
+[Auto]
+1=Lua GSX_AUTO
+2=Lua QW787_SYNC
+```
+If you plan to use the GSX_AUTO Script with other Planes, it has to be started as "Global"/"Default" Auto-Script!<br/>
+If you're using the PilotsDeck Profile I have published: add the QW787_AUTO as second Script (GSX_AUTO -> QW787_AUTO -> QW787_SYNC)<br/>
 
 # Configuration
 ## QualityWings2GSX / SimBrief / GSX
 ### QualityWings2GSX
-The most important Settings you have to set are your SimBrief's **Pilot ID** (look it up [here](https://www.simbrief.com/system/profile.php#settings) and the Maximums for the Fuel-Tanks.<br/>
-If you're not aware: there is Discrepancy with the QW787 showing different Maximums for the Fuel-Quantity (or specifically Quantity-to-Weight-Ratios). The EFB and Dispatcher will report a higher Capacity than actually configured in the aircraft.cfg. This is not an Issue when using the EFB - 100% there will give you 100%. But when other Programs (GSX, my Tool) set the Tanks to 100% the EFB will report ~97% and EICAS a lower than expected Fuel-Weight. So you have two Options:
-- (Recommended) Modify the aircraft.cfg (all three Variants) to use the Maximum Values configured in the Tool (so it everything is "aligned" to the same Maximums). It is *5737* gallons for the Wings and *23278* for the Center. The Maximum fuel Capacity to be used in SimBrief is *232809* then.
+The most important Settings you have to set are your SimBrief's **Pilot ID** (look it up [here](https://www.simbrief.com/system/profile.php#settings)) and the Maximums for the Fuel-Tanks.<br/>
+If you're not aware: there is a Discrepancy with the QW787 showing different Maximums for the Fuel-Quantity (or specifically Quantity-to-Weight-Ratios). The EFB and Dispatcher will report a higher Capacity than actually configured in the aircraft.cfg. This is not an Issue when using the EFB - 100% there will give you 100%. But when other Programs (GSX, my Tool) set the Tanks to 100% the EFB will report ~97% and EICAS a lower than expected Fuel-Weight. So you have two Options:
+- (Recommended) Modify the aircraft.cfg (all three Variants) to use the Maximum Values configured in the Tool (so it everything is "aligned" to the same Maximums). It is *5737* gallons for the Wings and *23278* for the Center. The Maximum fuel Capacity to be used in SimBrief is *232809* lbs then.
 - If you're not willing or don't want to modify the aircraft.cfg, modify the .config File of the Tool to use whatever you have in your aircraft.cfg - by Default it is *5570* gallons for the Wings and *22470* for the Center.<br/>
 ### SimBrief
 Configure the Plane in SimBrief with **lbs** - even when you use only OFP's in kgs! The Passenger-Weight to be used is 190lbs and Bag-Weight is 55lbs. Whichever option you choose for the Fuel-Capacity: use the Total Capacity in gallons from your aircraft.cfg, multiply it with *6.69921875* and use the Result as the Max Fuel Capacity in SimBrief.
 ### GSX
 Make sure you're Installation is updated and uses the Version released from January 31st 2022! FSDT has added Support for the QW787's Chocks, you can now release the Parking Brake and GSX will continue with its Service.<br/>
-You have to change the GSX-Configuration for the Plane, it has now a "Custom Fuel System" - the Fuel-Dialog has to be disabled! GSX will not refuel the Plan directly anymore, that is done by the Tool now - GSX will "only act" as if it would be Refueling the Plane. The Fuel-Capacity will of course only be increased as long as the Fuel-Hose is connected (when Joe finally manages to get it connected - he is soooo slow 😆) - multiple Trips are no Problem when your Stand has no Underground Fuel!<br/>
-Here what the Aircraft-Configuration should look like:
-[GSX-Aircraft-Configuration](img/GSX-Aircraft-Settings.jpg)<br/><br/>
-Here the Global-Configuration I use (as set per FSLabs Recommendation - nothing special for my Tool to set here, that I'm aware of):
-[GSX-Global-Configuration](img/GSX-Global-Settings.jpg)<br/><br/>
+You have to change the GSX-Configuration for the Plane, it has now a "Custom Fuel System" - the Fuel-Dialog has to be disabled (for every Variant)! GSX will not refuel the Plane directly anymore, that is done by the Tool now - GSX will "only act" as if it would be Refueling the Plane. The Fuel-Capacity will of course only be increased as long as the Fuel-Hose is connected (when Joe finally manages to get it connected - he is soooo slow 😆) - multiple Trips are no Problem when your Stand has no Underground Fuel!<br/><br/>
+Here what the Aircraft-Configuration should look like:<br/>
+![GSX-Aircraft-Configuration](img/GSX-Aircraft-Settings.jpg)<br/><br/>
+Here the Global-Configuration I use (as set per FSLabs Recommendation - nothing special for my Tool to set here, that I'm aware of):<br/>
+![GSX-Global-Configuration](img/GSX-Global-Settings.jpg)<br/><br/>
 
-# Troubleshooting
+## GSX_AUTO
+This Script keeps track of the current Service State / Cycle and is used by QW787_SYNC to trigger GSX-Actions. It registers Flags to be used with LuaToggle Events so the Functions can be called by Joystick (or StreamDeck).<br/>
+The most interesting are: "GSX_AUTO_CONNECT" (Flag# 9) and "GSX_AUTO_SERVICE_CYCLE" (Flag# 10). The first one will connect or disconnect the Jetway/GPU (whichever is available) and the second one automatically calls the next Service (Refuel -> Cater -> Board -> Push -> Push confirm -> ... after Touchdown -> Deboard -> start over with Refuel).
+- *delayOperator*: The Time in ms the Tool will wait for you to select something in the Ground-Handler Dialog from GSX (before the next Action will be triggered). The Script expects this Dialog to be closed before it selects the Jetways/calls the GPU. The Delay will be applied when the Script is in the "Refuel" State and the Ground-Service is not "connected" (Jetway/GPU in Place) - this is typically at your first Leg when you start on the Parking Stand. So this Delay will not be applied when the Deboard Service is called - it is assumed you've already told GSX which Stand to use on your Taxi-In (and answered that Question then).
+- *writeOffsets*: Only useful if you're using PilotsDeck (or anything else to Display Offsets). When enabled it will the (De)Boarding and (Un)Loading Progress to the two Offsets below. The Service State (and therefore which Service can be called) will always be written to the numeric Lvar "GSX_AUTO_SERVICE_STATE".
+
+## QW787_SYNC
+This Script is an essential Part of the GSX Integration/Automation. It will handle the Doors, Chocks/Ext Power and requests the Jetway/GPU.
+The File in this Repository is configured for Usage without PilotsDeck, so *syncPilotsDeck* is disabled. *syncGSX* is enabled of course :laugh:
+- *syncPilotsDeck*: Only interesting if you use PilotsDeck and/or the Profiles I've published (MCP Display + Buttons, Baro). Make sure the preconfigured Offsets are not in use!
+- *syncCabin*: Turn the Cabin Lights on/off with the Overhead Cab/Util Button
+- *syncBrake*: If you have have a Joystick/Input Device like the TCA, the Parking Brake will be synced to that Buttons State. Configure both brake-Variables accordingly.
+- *syncFD*: Set the FO's FD Switch to the State of the Captain's Switch
+- *syncGSX*: The essential Setting to enable the whole Integration/Automation. Only usable with the GSX_AUTO Script running!
+- *syncChocksAndPower*: Set or Remove External Power available and Chocks when Jetway/GPU is connected or removed. *syncGSX* has to be true for that. Can be temporarily overidden with Tow Power set to ON (it will not touch the Variables as long this Button is on).
+- *operateJetways*: Automatically remove Jetway/GPU before Push-Back or call Jetway/GPU and Deboard when Arrived. You can disable that if you want to handle that manually.<br/>
+For Removal the Trigger is: GSX_AUTO is in Push-State (happens when Boarding has finished) *AND* Beacon is ON *AND* Jetway/GPU in Place *AND* Parking Brake is SET *AND* FwdExt Pwr is OFF.
+For Call the Trigger is: GSX_AUTO is in Deboard-State (happens when the Engines are Off) *AND* Jetway/GPU not in Place *AND* Engines are STOPPED *AND* Beacon is OFF
+
+# FAQ
 
