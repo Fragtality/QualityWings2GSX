@@ -68,8 +68,6 @@
       <Link>.editorconfig</Link>
     </None>
     <None Include="App.config" />
-    <None Include="CopyToP3D.ps1" />
-    <None Include="Kill.ps1" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
