@@ -2,7 +2,7 @@
 
 ipc.sleep(60000) --Give the QW787 init process some time (seems to trigger Ind Lights with RAAS and Auto-Scripts?!)
 
-local syncPilotsDeck = true			--Generates/Writes the Offset Values used in the StreamDeck Profiles to display Baro, MCP Displays and Lights
+local syncPilotsDeck = false		--Generates/Writes the Offset Values used in the StreamDeck Profiles to display Baro, MCP Displays and Lights
 
 local syncCabin = false				--Turn the Cabin Lights on or off if the Cabin/Utility Buttton in the Overhead is toggled
 local syncBrake = false				--Sync the Parking Brake to the State of the Joystick Button (TCA and equivalents). Change Joystick Number and Button Number for the two Variables accordingly!
@@ -10,9 +10,9 @@ local brakeJoystick = 1				--The Joystick Number as known to FSUIPC
 local brakeButton = 19				--The Button Number as known to FSUIPC
 local syncFD = false				--Sync the FO's FD to the Captains
 
-local syncGSX = false				--Sync to Ground-Service Animations/Handling - open/close doors according to the Services currently performed by GSX. The GSX_AUTO Script QualityWings2GSX need to be running for that!
-local syncChocksAndPower = false	--Automatically set/remove Chocks and External Power according to the Jetway Operating State from GSX (When Jetway connected -> Chocks set / Ext Power available). Only Works when syncGSX is also true.
-local operateJetways = false		--Operate the Jetway(s) automatically when arriving/departing (syncGSX has to be enabled)
+local syncGSX = true				--Sync to Ground-Service Animations/Handling - open/close doors according to the Services currently performed by GSX. The GSX_AUTO Script QualityWings2GSX need to be running for that!
+local syncChocksAndPower = true		--Automatically set/remove Chocks and External Power according to the Jetway Operating State from GSX (When Jetway connected -> Chocks set / Ext Power available). Only Works when syncGSX is also true.
+local operateJetways = true			--Operate the Jetway(s) automatically when arriving/departing (syncGSX has to be enabled)
 
 -- 04E0-0537	88		Project Magenta
 -- 66C0-66FF	64		General Use

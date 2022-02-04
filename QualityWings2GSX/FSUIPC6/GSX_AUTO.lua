@@ -48,6 +48,7 @@ function GSX_AUTO_SYNC_CYCLE()
 	-- 5 => Flight
 	-- 6 => Taxi In
 	-- 7 => Deboard
+
 	if GSX_AUTO_SERVICE_STATE == 0 and (fuel_state >= 5 or board_state >= 4 ) then
 		GSX_AUTO_SERVICE_STATE = 1
 	elseif GSX_AUTO_SERVICE_STATE == 1 and (cater_state >= 5 or board_state >= 4 )then
