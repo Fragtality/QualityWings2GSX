@@ -9,6 +9,9 @@
 *.user
 *.userosscache
 *.sln.docstates
+Kill.ps1
+CopyToP3D.ps1
+desktop.ini
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

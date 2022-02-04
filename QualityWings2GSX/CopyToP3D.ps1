@@ -7,7 +7,7 @@ $destDir = "F:\Prepar3D\QualityWings2GSX"
 if ($buildConfiguration -eq "Release") {
 	Write-Host "Copy new Binaries ..."
 	Copy-Item -Path ($bindir + "\QualityWings2GSX.exe") -Destination $destDir -Recurse -Force
-	Copy-Item -Path ($bindir + "\QualityWings2GSX.exe.config") -Destination $destDir -Recurse -Force
+	#Copy-Item -Path ($bindir + "\QualityWings2GSX.exe.config") -Destination $destDir -Recurse -Force
 	#Copy-Item -Path ($baseDir + "\ofp.xml") -Destination $destDir -Recurse -Force
 	Copy-Item -Path ($bindir + "\*.dll") -Destination $destDir -Recurse -Force
 }
