@@ -160,6 +160,7 @@ The Number of Jetways is 2 or 1. I did not find a way for the Script to know how
 - If 2 Jetways are available, these 2 will always be connected (normally First to L1, Second to L2 - if your Jetways "cross" it is because the Scenery has an "uncommon" Order).
 - If only 1 Jetway is available, only this one will be connected (normally to L1).
 - Should there be 3 Jetways available, this Key-Sequence will not work! Choose another Gate and leave the 3 Jetway Gates to the A380's and Jumbos 😆 
+
 <br/><br/>
 **What if the Jetway has no Power Connection configured?**<br/>
 The Script doesn't check that - all Jetways are assumed of having a Ground Power Connection! When a Jetway is connected, the External Power Available will be set!
@@ -184,6 +185,7 @@ If you really want to know what it is doing: have a look at the Log-File: Qualit
 The Scripts log to the FSUIPC6.log what they are doing.
 <br/><br/>
 **What are these Service / Cycle States? How they a triggered?**<br/>
+
 The GSX_AUTO Script has the following States (can be read via Lvar "GSX_AUTO_SERVICE_STATE"):
 - 0/Refuel: The Refuel truck will be requested when GSX_AUTO_SERVICE_CYCLE is called. The State will change if the Truck is in Place OR the Boarding is started.
 - 1/Cater: The Catering will be requested when GSX_AUTO_SERVICE_CYCLE is called. The State will change if the Trucks are in Place OR the Boarding is started.
