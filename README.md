@@ -177,7 +177,8 @@ That's not a Problem, you can have it running! The Fuel Capacity will still be i
 The Binary itself uses the right Wing Tank as Reference for the Wings, it too will stop the Refueling even when the APU is decreasing the Quantity in the left Wing Tank!
 <br/><br/>
 **Do I need to set the Fuel Tanks to a specific Value before calling Refuel?**<br/>
-Depends if you are using the QW787_AUTO Script (respectively the QW_INIT Function) from the PilotsDeck Integration. The Init-Function will set your Plane to 1.5% in the Wings and 0% in the Center when used. If not using it: make sure your Fuel is below your planned Weight before calling Refuel to avoid Problems (see above)!
+Depends if you are using the QW787_AUTO Script (respectively the QW_INIT Function) from the PilotsDeck Integration. The Init-Function will set your Plane to 1.5% in the Wings and 0% in the Center when used. If not using it: make sure your Fuel is below your planned Weight before calling Refuel to avoid Problems (see above)!<br/>
+Besides that, everything what is in the Tanks (and not above the Planned Weight) stays there. The Tanks are filled up like they would normally.
 <br/><br/>
 **The Binary is not running! / I can't see a Window! / How can I know what the Tool is doing?**<br/>
 This is on Purpose, it is compiled to not open a Window and do its work "silently" in the Background!<br/>
