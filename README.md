@@ -137,7 +137,7 @@ The Scripts will definitively not work. The Binary should work: one of the basic
 **I dont use SimBrief, is that of any use to me?**<br/>
 First off: try it! I was sceptical at first too - now I can't imagine not using it! 😁<br/> 
 Like described in the first Question: you can use the Scripts without the Binary.<br/>
-But: you can still use the Binary even without SimBrief - that is what the ofp.xml File is for! Basically it is "extra-slim" Version of the SimBrief xml with the basic Values needed for the Binary to work. Change the Fuel Weight and Pax/Bag Count accordingly in the Units you prefer. Be sure to match the Variant to the one you are currently using and to change the Flight Number when doing a Turn-Around. Else the Plan will not be loaded!<br/>
+But: you can still use the Binary even without SimBrief - that is what the ofp.xml File is for! Basically it is a "extra-slim" Version of the SimBrief xml with the basic Values needed for the Binary to work. Change the Fuel Weight and Pax/Bag Count accordingly in the Units you prefer. Be sure to match the Variant to the one you are currently using and to change the Flight Number when doing a Turn-Around. Else the Plan will not be loaded!<br/>
 If the File exists, it will always takes precedence over the SimBrief ("Online") OFP. Leave it renamed to .off if you want to use your Online OFP!
 <br/><br/>
 **What if I had a Sim-Crash and load the Plane In-Flight?**<br/>
