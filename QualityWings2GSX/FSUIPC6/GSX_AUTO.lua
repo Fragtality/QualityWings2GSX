@@ -306,7 +306,7 @@ function GSX_AUTO_SERVICE_CYCLE()
 		GSX_AUTO_BOARD()
 	elseif GSX_AUTO_SERVICE_STATE == 3 then
 		GSX_AUTO_PUSH()
-	elseif GSX_AUTO_SERVICE_STATE == 6 then
+	elseif GSX_AUTO_SERVICE_STATE == 7 then
 		GSX_AUTO_DEBOARD()
 	end
 end
