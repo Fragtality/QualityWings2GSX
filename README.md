@@ -152,17 +152,21 @@ GSX does not set the Jetway Variables early enough so that the Script could alre
 Also it can indeed happen that the GPU is dismissed twice on Push-Back: the GSX Variables only show a Service being "moved" when it is actually moved. So Jetways will immediately reflect that they are moving, the GPU only when it hooked up again. So if you immediately call Push-Back (through GSX_AUTO_SERVICE_CYCLE / GSX_AUTO_PUSH) the Script sees that you're still "connected" and will dismiss the GPU again. But that should not break anything, the GPU will still be removed and Push-Back can begin after that!
 <br/><br/>
 **You're just writing "Jetway/GPU" - but what about the Stairs?**<br/>
-No worries - they are operated by GSX itself! When (De)Boarding is requested, they will move automatically. The Script will open/close the Doors automatically to GSX's Requests.
+No worries - they are operated by GSX itself! When (De)Boarding is requested, they will move automatically. The Script will open/close the Doors automatically to GSX's Requests.<br/>
+The Stairs will be removed by GSX_AUTO as soon as Deboarding has finished - or else GSX will run into a "behavior" not sending the Fuel Truck. For that Reason, GSX_AUTO_CONNECT also will not call the Stairs when in Depature (Refuel State).
+<br/><br/>
+**How many Stairs or Jetways will be requested?**<br/>
+The Number of Stairs depends if you have modified the GSX Aircraft Configuration! By default QW/FSDT will use L1, L2 and L4 for (De)Boarding - so it will be 3 Stairs! If you disabled L4 for e.g., it will be 2.<br/>
+The Number of Jetways is 2 or 1. I did not find a way for the Script to know how many Jetways are available, so it will use the Key-Sequence: 6->1->2->3.
+- If 2 Jetways are available, these 2 will always be connected (normally First to L1, Second to L2 - if your Jetways "cross" it is because the Scenery has an "uncommon" Order).
+- If only 1 Jetway is available, only this one will be connected (normally to L1).
+- Should there be 3 Jetways available, this Key-Sequence will not work! Choose another Gate and leave the 3 Jetway Gates to the A380's and Jumbos 😆 
 <br/><br/>
 **What if the Jetway has no Power Connection configured?**<br/>
 The Script doesn't check that - all Jetways are assumed of having a Ground Power Connection! When a Jetway is connected, the External Power Available will be set!
 <br/><br/>
 **What if the Stand has no Underground Fuel? Does it support multiple Trips?**<br/>
 No Problem, it works with both and supports multiple Trips! In either Case: the loaded Fuel is only increased as long the Fuel-Hose is connected (when slow-Joe finally manages to get it connected - he is sooo slooow! 😆)
-<br/><br/>
-**The Fuel-Truck is not showing up when I'm at a Turn-Around!**<br/>
-If you're sitting on a Parking Stand and deboarded the Plane via Stairs: It seems to be a Bug within GSX (it is not clear yet). The Stairs get never out of the "moving" state and GSX wont send a Truck when they are moving! The Script is trying to dismiss the Stairs (if no Jetway connected) when it switches from Deboarding to Refuel State. But it is useless ... regardless who dismisses the Stairs, their State will not get out of "moving"<br/>
-You either have to avoid such Turn-Arounds OR do a "Reset Position" with Tow Power ON before the Binary tries to load the new OFP (5 Minutes after Deboarding has finished)
 <br/><br/>
 **I've less Fuel in Tanks than before calling Refuel! / The Refuel does not stop!**<br/>
 The Binary will indeed *decrease* the Fuel in all of your Tanks or the Center Tank, if you are above the planned Weight! It's very Purpose is to get you exactly what is in the SimBrief OFP.<br/>
