@@ -190,7 +190,7 @@ The GSX_AUTO Script has the following States (can be read via Lvar "GSX_AUTO_SER
 - 6/Taxi-In: The State after the Plane is on the Ground again and Engines are still running (as recognized by GSX)
 - 7/Deboard: The Deboarding will be started when GSX_AUTO_SERVICE_CYCLE is called (if don't let QW787_SYNC request it for you). The State is active the Engines are stopped and as long the Deboarding is not marked as being completed. After that it will start over with 0/Refuel!
 
-<br/>
+
 The Binary has the following States (internaly):
 - 0/Pre-Flight: The State is only used once - on your first Leg when the Sim/Plane is loaded. When you enable the Batteries, the OFP will be loaded and it goes in the next State. If the Plane is not on the Ground, the OFP will be loaded and the State advances directly to Flight.
 - 1/At Depature Gate: The State as long Refueling and Boarding are not finished (Catering does not matter). Advances to the next State as soon as these two Services are finished.
