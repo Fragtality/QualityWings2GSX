@@ -15,8 +15,8 @@ Since you're still interested, here the Features of the individual Tools/Scripts
 
 ## Releases
 There are two Releases:
-- "GSX only": If you want the whole GSX and SimBrief Integration/Automation but don't have a StreamDeck / don't use PilotsDeck.
-- "Complete": If you're also using PilotsDeck and/or the published Profiles, you find can everything in one Package ready to be used together.
+- "GSX only": If you want the whole GSX and SimBrief Integration/Automation but don't have a StreamDeck / don't use PilotsDeck. Download [QualityWings2GSX_GSX-only.zip](QualityWings2GSX_GSX-only.zip)
+- "Complete": If you're also using PilotsDeck and/or the published Profiles, you find can everything in one Package ready to be used together. Download [QualityWings2GSX_Complete.zip](QualityWings2GSX_Complete.zip)
 <br/>
 
 # Quick-Start
