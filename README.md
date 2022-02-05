@@ -140,8 +140,11 @@ Like described in the first Question: you can use the Scripts without the Binary
 But: you can still use the Binary even without SimBrief - that is what the ofp.xml File is for! Basically it is "extra-slim" Version of the SimBrief xml with the basic Values needed for the Binary to work. Change the Fuel Weight and Pax/Bag Count accordingly in the Units you prefer. Be sure to match the Variant to the one you are currently using and to change the Flight Number when doing a Turn-Around. Else the Plan will not be loaded!<br/>
 If the File exists, it will always takes precedence over the SimBrief ("Online") OFP. Leave it renamed to .off if you want to use your Online OFP!
 <br/><br/>
-**What if I had a Crash and load the Plane In-Flight?**<br/>
+**What if I had a Sim-Crash and load the Plane In-Flight?**<br/>
 Both the Binary and the Scripts will recognize that and start with their State-Tracking in "Flight". After you have arrived everything should work normally. Based on your current OFP when you reloaded the Flight - so don't dispatch a new Flight if you need to reload!
+<br/><br/>
+**The automatic Requests sometimes do not work!**<br/>
+Be sure that the Sim has Input-Focus! GSX_AUTO sends a Keypress command through FSUIPC (for the GSX Menu Hotkey), so it requires Input-Focus to open the Menu (Navigating in the Menus is then down via Control-Codes).
 <br/><br/>
 **Will it get confused if I request the Services manually and/or out of order?**<br/>
 The Binary and Scripts use the State Lvars provided by GSX and basic Offsets like "On Ground" - so it should not get confused (had not the Time to test every combination). You can call Refuel, Catering and Boarding in any order you wish regardless of being manually or through Script. Everything else is assumed to happen in Order: you don't Deboard without being arrived - you push & fly and arrive before Deboarding.
