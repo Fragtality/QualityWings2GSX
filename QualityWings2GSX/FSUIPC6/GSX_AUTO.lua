@@ -10,7 +10,7 @@ local GSX_OFFSET_CARGO = 0x66C5 --String, Length 6
 
 ----------------------------------
 -- Variables
-ipc.sleep(15000) --Wait some time before really starting, to avoid "Load Order Problems"
+-- ipc.sleep(15000) --Wait some time before really starting, to avoid "Load Order Problems"
 
 local GSX_AUTO_SERVICE_STATE = 0
 ipc.createLvar("GSX_AUTO_SERVICE_STATE", GSX_AUTO_SERVICE_STATE)
@@ -18,6 +18,19 @@ local GSX_AUTO_CONNECTED = 0
 ipc.createLvar("GSX_AUTO_CONNECTED", GSX_AUTO_CONNECTED)
 ipc.createLvar("GSX_AUTO_CONNECT_REQUESTED", 0)
 ipc.createLvar("GSX_AUTO_DEBOARD_REQUESTED", 0)
+
+local debugArrival = false
+if debugArrival then
+	GSX_AUTO_SERVICE_STATE = 5
+	ipc.writeLvar("GSX_AUTO_SERVICE_STATE", GSX_AUTO_SERVICE_STATE)
+	ipc.writeLvar("FSDT_GSX_NUMPASSENGERS", 30);
+	ipc.writeLvar("FSDT_GSX_PILOTS_NOT_BOARDING", 1);
+	ipc.writeLvar("FSDT_GSX_CREW_NOT_BOARDING", 1);
+	ipc.writeLvar("FSDT_GSX_PILOTS_NOT_DEBOARDING", 1);
+	ipc.writeLvar("FSDT_GSX_CREW_NOT_DEBOARDING", 1);
+	ipc.writeLvar("FSDT_GSX_NUMCREW", 0);
+	ipc.writeLvar("FSDT_GSX_NUMPILOTS", 0);
+end
 
 local PLDFSL = nil
 local aircraft = ipc.readSTR(0x3C00,256)
@@ -51,23 +64,31 @@ function GSX_AUTO_SYNC_CYCLE()
 
 	if GSX_AUTO_SERVICE_STATE == 0 and (fuel_state >= 5 or board_state >= 4 ) then
 		GSX_AUTO_SERVICE_STATE = 1
+		ipc.log("GSX_AUTO: Service State switched from Refuel to Cater")
 	elseif GSX_AUTO_SERVICE_STATE == 1 and (cater_state >= 5 or board_state >= 4 )then
 		GSX_AUTO_SERVICE_STATE = 2
+		ipc.log("GSX_AUTO: Service State switched from Cater to Board")
 	elseif GSX_AUTO_SERVICE_STATE == 2 and board_state == 6 then
 		GSX_AUTO_SERVICE_STATE = 3
+		ipc.log("GSX_AUTO: Service State switched from Bord to Push")
 	elseif GSX_AUTO_SERVICE_STATE == 3 and depart_state == 6 then
 		GSX_AUTO_SERVICE_STATE = 4
+		ipc.log("GSX_AUTO: Service State switched from Push to Taxi Out")
 	elseif onGnd ~= 1 then
 		GSX_AUTO_SERVICE_STATE = 5
+		ipc.log("GSX_AUTO: Service State switched to Flight")
 	elseif GSX_AUTO_SERVICE_STATE == 5 and onGnd == 1 then
 		GSX_AUTO_SERVICE_STATE = 6
+		ipc.log("GSX_AUTO: Service State switched from Flight to Taxi In")
 	elseif GSX_AUTO_SERVICE_STATE == 6 and ipc.readLvar("FSDT_VAR_EnginesStopped") == 1 then
 		GSX_AUTO_SERVICE_STATE = 7
+		ipc.log("GSX_AUTO: Service State switched from Taxi In to Deboard")
 	elseif GSX_AUTO_SERVICE_STATE == 7 and deboard_state == 6 then
 		GSX_AUTO_SERVICE_STATE = 0
+		ipc.log("GSX_AUTO: Service State switched from Deboard to Refuel")
 		local gsxJetway = ipc.readLvar("FSDT_GSX_JETWAY")
-		if gsxJetway == 2 then --Try to operate Stairs for them not blocking the Refuel ... but essentially useless because of GSX's buggy Stairs.
-			ipc.log("GSX_AUTO: Triggering Stairs after Deboard")
+		if gsxJetway == 2 then --Try to operate Stairs for them not blocking the Refuel ...
+			ipc.log("GSX_AUTO: Remove Stairs after Deboard")
 			GSX_AUTO_MENU(1500)
 			GSX_AUTO_KEY(7)
 			ipc.sleep(500)
@@ -78,10 +99,11 @@ function GSX_AUTO_SYNC_CYCLE()
 
 	-- REQUESTS / CONNECTED STATE
 	if ipc.readLvar("GSX_AUTO_CONNECT_REQUESTED") ~= 0 then
-		ipc.log("GSX_AUTO: Dis/Connect requested")
 		if GSX_AUTO_CONNECTED == 0 then
+			ipc.log("GSX_AUTO: Connect Request received")
 			GSX_AUTO_CONNECT(true)
 		else
+			ipc.log("GSX_AUTO: Disconnect Request received")
 			GSX_AUTO_CONNECT()
 		end
 		ipc.writeLvar("GSX_AUTO_CONNECT_REQUESTED", 0)
@@ -91,7 +113,7 @@ function GSX_AUTO_SYNC_CYCLE()
 	end
 
 	if ipc.readLvar("GSX_AUTO_DEBOARD_REQUESTED") ~= 0 then
-		ipc.log("GSX_AUTO: Deboard requested")
+		ipc.log("GSX_AUTO: Deboard Request received")
 		GSX_AUTO_DEBOARD()
 		ipc.writeLvar("GSX_AUTO_DEBOARD_REQUESTED", 0)
 	end
@@ -99,9 +121,11 @@ function GSX_AUTO_SYNC_CYCLE()
 	if ipc.readLvar("FSDT_GSX_JETWAY") == 5 or ipc.readLvar("FSDT_GSX_GPU_STATE") == 5 then
 		GSX_AUTO_CONNECTED = 1
 		ipc.writeLvar("GSX_AUTO_CONNECTED", GSX_AUTO_CONNECTED)
+		ipc.log("GSX_AUTO: Connected")
 	else
 		GSX_AUTO_CONNECTED = 0
 		ipc.writeLvar("GSX_AUTO_CONNECTED", GSX_AUTO_CONNECTED)
+		ipc.log("GSX_AUTO: Disconnected")
 	end
 
 	-- OFFSETS
@@ -231,6 +255,7 @@ function GSX_AUTO_PUSH()
 			ipc.sleep(1000)
 			PLDFSL.PED_COMM_1_INT_RAD_Switch("OFF")
 		end
+		ipc.log("GSX_AUTO_PUSH: Push requested")
 	elseif depature_state == 5 then
 		if PLDFSL == nil then
 			GSX_AUTO_PUSH_CONFIRM()
@@ -239,6 +264,7 @@ function GSX_AUTO_PUSH()
 			ipc.sleep(1000)
 			PLDFSL.PED_COMM_1_INT_RAD_Switch("OFF")
 		end
+		ipc.log("GSX_AUTO_PUSH: Good-Start confirmed")
 	end
 end
 
@@ -328,4 +354,4 @@ event.flag(9, "GSX_AUTO_CONNECT")
 event.flag(10, "GSX_AUTO_SERVICE_CYCLE")
 
 event.timer(3000, "GSX_AUTO_SYNC_CYCLE")
-ipc.log("GSX Sync active")
+ipc.log("GSX Sync active - starting in State " .. GSX_AUTO_SERVICE_STATE)
