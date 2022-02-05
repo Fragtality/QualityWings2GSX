@@ -201,6 +201,10 @@ The Binary has the following States (internaly):
 - 6/Turn-Around: The Binary will sleep for the first 5 Minutes in this State. After that it checks every 60s for a new OFP (if not directly found). When a new OFP has been found, it starts over at 1/At Depature Gate.
 <br/><br/>
 
+**I have installed all that and now the QW start with all the Lights on!**<br/>
+For Reasons unknown, some Combination of QW + GSX + FSUIPC Auto Scripts + RAAS Pro + whatever can trigger the 787 being loaded with all Indication Lights on (the Switch is permanently in On/Test Position). The Plane is working normally, so let the Init-Script take care of that or move the Switch manually.
+<br/><br/>
+
 **What if I need Help with that?**<br/>
 Just contact me via PM in the AVSIM, FSDT or QW Forums!
 <br/><br/>
