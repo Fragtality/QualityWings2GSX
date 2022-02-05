@@ -9,7 +9,7 @@ If this Toolset is of interest to you, can be answered easily by yourself:
 So if the Answer is 'yes' to any of these Questions: Here is a tool you might want to try out :wink:<br/>But before getting to excited, here the caveat: you need a registered Version of FSUIPC to use the whole Toolset!<br/><br/>
 
 Since you're still interested, here the Features of the individual Tools/Scripts contained in this Toolset:
-- An external Program (*QualityWings2GSX*) which will read your current SimBrief OFP and uses the Fuel Weights, Passenger and Bag Count (and their configured Weight in SimBrief) to progressively Refuel, Board and Deboard the Plane. It will set these Values in / use the Values with GSX so that the Refuel, Board and Deboard Animation is "in synch" with your OFP Data.<br/>It does not matter if your OFP is in kgs or lbs, if your APU is running or not and it is "turn-around-safe": After being deboarded the new OFP will be loaded and used for the next Refuel, Board and Deboard Cycle. It uses FSUIPC (C# Client) to communicate with the Sim/GSX/Plane.
+- An external Program (*QualityWings2GSX*) which will read your current SimBrief OFP and uses the Fuel Weights, Passenger and Bag Count (and their configured Weight in SimBrief) to progressively Refuel, Board and Deboard the Plane. It will set these Values in / use the Values with GSX so that the Refuel, Board and Deboard Animation is "in synch" with your OFP Data.<br/>It does not matter if your OFP is in kgs or lbs, if your APU is running, the Refueling needs multiple Trips. It is also "turn-around-capable": After being deboarded the new OFP will be loaded and used for the next Refuel, Board and Deboard Cycle. It uses FSUIPC (C# Client) to communicate with the Sim/GSX/Plane.
 - A small "GSX Lua Library" (*GSX_AUTO*) which can also be used for other Planes - it does the GSX Menu Handling and some Automation. The Functions can be called with "LuaToggles" via FSUIPC. Or from your StreamDeck - when used together with PilotsDeck you can display the current (De-)Boarding and Cargo (Un-)Loading Progress and what is the current State / Service that can be called.
 - A Lua Script to automate the Ground-Service Handling (*QW787_SYNC*) for the QualityWings 787. It opens / closes the respective Doors as requested from GSX, automatically after Boarding is completed or when the Cargo (Un-)Loading is finished. It will set / remove the Chocks & External Power and will move the Jetway/GPU automatically for you.<br/><br/>
 
@@ -68,7 +68,7 @@ If you're using the PilotsDeck Profile I have published: add the QW787_AUTO as s
 # Configuration
 ## QualityWings2GSX / SimBrief / GSX
 ### QualityWings2GSX
-The most important Settings you have to set are your SimBrief's **Pilot ID** (look it up [here](https://www.simbrief.com/system/profile.php#settings)) and the Maximums for the Fuel-Tanks.<br/>
+The most important Settings you have to set are your SimBrief's **Pilot ID** (look it up [here](https://www.simbrief.com/system/profile.php#settings)) and the **Maximums** for the Fuel-Tanks.<br/>
 If you're not aware: there is a Discrepancy with the QW787 showing different Maximums for the Fuel-Quantity (or specifically Quantity-to-Weight-Ratios). The EFB and Dispatcher will report a higher Capacity than actually configured in the aircraft.cfg. This is not an Issue when using the EFB - 100% there will give you 100%. But when other Programs (GSX, my Tool) set the Tanks to 100% the EFB will report ~97% and EICAS a lower than expected Fuel-Weight. So you have two Options:
 - (Recommended) Modify the aircraft.cfg (all three Variants) to use the Maximum Values configured in the Tool (so it everything is "aligned" to the same Maximums). It is *5737* gallons for the Wings and *23278* for the Center. The Maximum fuel Capacity to be used in SimBrief is *232809* lbs then.
 - If you don't want to modify the aircraft.cfg, you'll need to modify the .config File of the Tool to use whatever you have in your aircraft.cfg. By Default it is *5570* gallons for the Wings and *22470* for the Center.
@@ -90,10 +90,10 @@ Note that this is the *total* flow, it will be split across the Tanks (depending
 Also note that this Value scales with (P3D's) Time Acceleration, so when using 2x Acceleration the Refueling will be twice as fast. The GSX Time Acceleration has no Effect on the Tools' Refuel Process.
 - *constPaxDashX*: The Number Seats in Business;Economy for the given Variant. Already set to QW's Defaults.
 - all other const Variables don't need and should not be touched - they are really constant Constants 😜
-<br/>
 
 ### SimBrief
-Configure the Plane in SimBrief with **lbs** - even when you use only OFP's in kgs! The Passenger-Weight to be used is *190*lbs and Bag-Weight is *55*lbs. Whichever option you choose for the Fuel-Capacity: use the Total Capacity in gallons from your aircraft.cfg, multiply it with *6.69921875* and use the Result as the Max Fuel Capacity in SimBrief.
+Configure the Plane in SimBrief with **lbs** - even when you use only OFP's in kgs! The Passenger-Weight to be used is *190*lbs and Bag-Weight is *55*lbs. Whichever option you choose for the Fuel-Capacity: use the Total Capacity in gallons from your aircraft.cfg, multiply it with *6.69921875* and use the Result as the Max Fuel Capacity in SimBrief.<br/>
+
 ### GSX
 Make sure you're Installation is updated and uses the Version released from January 31st 2022! FSDT has added Support for the QW787's Chocks, you can now release the Parking Brake and GSX will continue with its Service.<br/>
 You have to change the GSX-Configuration for the Plane, it has now a "Custom Fuel System" - the Fuel-Dialog has to be disabled (for every Variant)! GSX will not refuel the Plane directly anymore, that is done by the Tool now.<br/><br/>
@@ -142,7 +142,7 @@ But: you can still use the Binary even without SimBrief - that is what the ofp.x
 If the File exists, it will always takes precedence over the SimBrief ("Online") OFP. Leave it renamed to .off if you want to use your Online OFP!
 <br/><br/>
 **What if I had a Crash and load the Plane In-Flight?**<br/>
-Both the Binary and the Scripts will recognize that and start with their State-Tracking "In Flight" / "Enroute". After you have arrived everything should work normally. Based on your current OFP when you reloaded the Flight - so don't dispatch a new Flight if you need to reload!
+Both the Binary and the Scripts will recognize that and start with their State-Tracking in "Flight". After you have arrived everything should work normally. Based on your current OFP when you reloaded the Flight - so don't dispatch a new Flight if you need to reload!
 <br/><br/>
 **Will it get confused if I request the Services manually and/or out of order?**<br/>
 The Binary and Scripts use the State Lvars provided by GSX and basic Offsets like "On Ground" - so it should not get confused (had not the Time to test every combination). You can call Refuel, Catering and Boarding in any order you wish regardless of being manually or through Script. Everything else is assumed to happen in Order: you don't Deboard without being arrived - you push & fly and arrive before Deboarding.
@@ -166,7 +166,7 @@ You either have to avoid such Turn-Arounds OR do a "Reset Position" with Tow Pow
 <br/><br/>
 **I've less Fuel in Tanks than before calling Refuel! / The Refuel does not stop!**<br/>
 The Binary will indeed *decrease* the Fuel in all of your Tanks or the Center Tank, if you are above the planned Weight! It's very Purpose is to get you exactly what is in the SimBrief OFP.<br/>
-If you should do that, there is a Chance of GSX never stopping with the Refuel Process! GSX monitors the Capacity increasing, so a Decrease won't trigger GSX' Logic to end the Refuel Process! It can be fixed when setting a higher Value manually in the Payload-Dialog. But: just don't use it to "pump-out" Fuel 😉<br/>
+If you should do that, there is a Chance of GSX never stopping with the Refuel Process! GSX monitors the Capacity increasing, so a Decrease won't trigger GSX' Logic to end the Refuel Process! It can be fixed when setting a higher Value manually in the Payload-Dialog. But: just don't use it to "pump-out" Fuel 😉
 <br/><br/>
 **So I can't use the APU while Refueling?**<br/>
 That's not a Problem, you can have it running! The Fuel Capacity will still be increasing and will stop increasing when the Target is reached - GSX's Logic will be triggered and the Refuel Process stops.<br/>
@@ -177,7 +177,7 @@ Depends if you are using the QW787_AUTO Script (respectively the QW_INIT Functio
 <br/><br/>
 **The Binary is not running! / I can't see a Window! / How can I know what the Tool is doing?**<br/>
 This is on Purpose, it is compiled to not open a Window and do its work "silently" in the Background!<br/>
-If you really want to know what it is doing: have a look at the Log-File!
+If you really want to know what it is doing: have a look at the Log-File.
 <br/><br/>
 **What are these Service / Cycle States? How they a triggered?**<br/>
 The GSX_AUTO Script has the following States (can be read via Lvar "GSX_AUTO_SERVICE_STATE"):
@@ -189,6 +189,7 @@ The GSX_AUTO Script has the following States (can be read via Lvar "GSX_AUTO_SER
 - 5/Flight: The State will always be set when the Plane is not on the Ground.
 - 6/Taxi-In: The State after the Plane is on the Ground again and Engines are still running (as recognized by GSX)
 - 7/Deboard: The Deboarding will be started when GSX_AUTO_SERVICE_CYCLE is called (if don't let QW787_SYNC request it for you). The State is active the Engines are stopped and as long the Deboarding is not marked as being completed. After that it will start over with 0/Refuel!
+
 <br/>
 The Binary has the following States (internaly):
 - 0/Pre-Flight: The State is only used once - on your first Leg when the Sim/Plane is loaded. When you enable the Batteries, the OFP will be loaded and it goes in the next State. If the Plane is not on the Ground, the OFP will be loaded and the State advances directly to Flight.
