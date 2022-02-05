@@ -212,8 +212,8 @@ The Binary has the following States (internaly):
 <br/><br/>
 
 **I have installed all that and now the QW start with all the Lights on!**<br/>
-For Reasons unknown, some Combination of QW + GSX + FSUIPC Auto Scripts + RAAS Pro + whatever can trigger the 787 being loaded with all Indication Lights on (the Switch is permanently in On/Test Position). The Plane is working normally, so let the Init-Script take care of that or move the Switch manually.<br/>
-I've tried to avoid it as much as I can with the Scripts sleeping the first 60 Seconds before doing anything. So far FSDT and FS2Crew denied being this a Bug on their Side or an Interaction between them. QualityWings does not even have answered yet.<br/>
+For Reasons unknown, some Combination of QW and (GSX or FSUIPC Auto Scripts or RAAS Pro or whatever) can trigger the 787 being loaded with all Indication Lights on (the Switch is permanently in On/Test Position). The Plane is working normally, so let the Init-Script take care of that or move the Switch manually.<br/>
+I've tried to avoid it as much as I can with the Scripts sleeping the first 60 Seconds before doing anything. So far FSDT and FS2Crew denied that GSX/RAAS could trigger something like that. QualityWings does not have answered yet.<br/>
 Should I EVER find the real Root-Cause, I'll let you know and will fix or at least try to workaround that!
 <br/><br/>
 
