@@ -86,8 +86,7 @@ function GSX_AUTO_SYNC_CYCLE()
 	elseif GSX_AUTO_SERVICE_STATE == 7 and deboard_state == 6 then
 		GSX_AUTO_SERVICE_STATE = 0
 		ipc.log("GSX_AUTO: Service State switched from Deboard to Refuel")
-		local gsxJetway = ipc.readLvar("FSDT_GSX_JETWAY")
-		if gsxJetway == 2 then --Try to operate Stairs for them not blocking the Refuel ...
+		if ipc.readLvar("FSDT_GSX_JETWAY") == 2 and ipc.readLvar("FSDT_GSX_STAIRS") == 5 then --Try to remove Stairs for them not blocking the Refuel ...
 			ipc.log("GSX_AUTO: Remove Stairs after Deboard")
 			GSX_AUTO_MENU(1500)
 			GSX_AUTO_KEY(7)
