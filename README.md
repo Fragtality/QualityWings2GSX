@@ -181,7 +181,8 @@ Depends if you are using the QW787_AUTO Script (respectively the QW_INIT Functio
 <br/><br/>
 **The Binary is not running! / I can't see a Window! / How can I know what the Tool is doing?**<br/>
 This is on Purpose, it is compiled to not open a Window and do its work "silently" in the Background!<br/>
-If you really want to know what it is doing: have a look at the Log-File.
+If you really want to know what it is doing: have a look at the Log-File: QualityWings2GSX.log.<br/>
+The Scripts log to the FSUIPC6.log what they are doing.
 <br/><br/>
 **What are these Service / Cycle States? How they a triggered?**<br/>
 The GSX_AUTO Script has the following States (can be read via Lvar "GSX_AUTO_SERVICE_STATE"):
@@ -192,7 +193,7 @@ The GSX_AUTO Script has the following States (can be read via Lvar "GSX_AUTO_SER
 - 4/Taxi-Out: The State while the Plane is still on the Ground.
 - 5/Flight: The State will always be set when the Plane is not on the Ground.
 - 6/Taxi-In: The State after the Plane is on the Ground again and Engines are still running (as recognized by GSX)
-- 7/Deboard: The Deboarding will be started when GSX_AUTO_SERVICE_CYCLE is called (if don't let QW787_SYNC request it for you). The State is active the Engines are stopped and as long the Deboarding is not marked as being completed. After that it will start over with 0/Refuel!
+- 7/Deboard: The Deboarding will be requested when GSX_AUTO_SERVICE_CYCLE is called (if you don't let QW787_SYNC request it for you). The State is active as long the Deboarding is not marked as being completed. After that it will start over with 0/Refuel!
 
 
 The Binary has the following States (internaly):
@@ -202,11 +203,12 @@ The Binary has the following States (internaly):
 - 3/Flight: The State as long the Plane is in the Air.
 - 4/Taxi In: The State when the Plane has touched down and Engines are still running.
 - 5/At Arrival Gate: The State while the Plane is being deboarded. Advances when Deboarding is finished.
-- 6/Turn-Around: The Binary will sleep for the first 5 Minutes in this State. After that it checks every 60s for a new OFP (if not directly found). When a new OFP has been found, it starts over at 1/At Depature Gate.
+- 6/Turn-Around: The Binary will sleep for the first 5 Minutes in this State. After that it checks every 60s for a new OFP (if not directly found). When a new OFP has been found, it starts over at 1/At Depature Gate. An OFP is considered "new" when the Flight ID (Callsign and/or FlightNumber) are different to the last used OFP.
 <br/><br/>
 
 **I have installed all that and now the QW start with all the Lights on!**<br/>
-For Reasons unknown, some Combination of QW + GSX + FSUIPC Auto Scripts + RAAS Pro + whatever can trigger the 787 being loaded with all Indication Lights on (the Switch is permanently in On/Test Position). The Plane is working normally, so let the Init-Script take care of that or move the Switch manually.
+For Reasons unknown, some Combination of QW + GSX + FSUIPC Auto Scripts + RAAS Pro + whatever can trigger the 787 being loaded with all Indication Lights on (the Switch is permanently in On/Test Position). The Plane is working normally, so let the Init-Script take care of that or move the Switch manually.<br/>
+I've tried to avoid it as much as I can with the Scripts sleeping the first 60 Seconds before doing anything. So far FSDT, QualityWings and FS2Crew denied being this a Bug on their Side or an Interaction between them. Should I EVER find the real Root-Cause, I'll let you know and will fix or at least try to workaround that!
 <br/><br/>
 
 **What if I need Help with that?**<br/>
