@@ -2,7 +2,7 @@
 ## Description
 If this Toolset is of interest to you, can be answered easily by yourself:
 - Wished that you could just get the planned Fuel and Weights from your SimBrief OFP automatically by calling the GSX Services? Without any Payload Dialog or Dispatch Page / Dispatcher involved?
-- Wished that the Plane was actually & progessively refuelled and (De-)Boarded when GSX is active? (Not refueling and boarding an already loaded Plane - really seeing the GW rise and fall as the Passengers are entering/leaving Plane and the Containers are loaded/unloaded)
+- Wished that the Plane was actually & progressively refueled and (De-)Boarded when GSX is active? (Not refueling and boarding an already loaded Plane - really seeing the GW rise and fall as the Passengers are entering/leaving Plane and the Containers are loaded/unloaded)
 - Wished that the Ground- and Cabin-Crew would just take care of the Doors, instead you "leaving" the Cockpit to open/close all that Doors?
 - Wished the Jetway/GPU would just automatically be called / removed, the Chocks being set / removed and External Power connected / disconnected?<br/>
 
