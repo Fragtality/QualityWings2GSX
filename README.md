@@ -15,18 +15,18 @@ Since you're still interested, here the Features of the individual Tools/Scripts
 
 ## Releases
 There are two Releases:
-- "GSX only": If you want the whole GSX and SimBrief Integration/Automation but don't have a StreamDeck / don't use PilotsDeck. Download [QualityWings2GSX_GSX-only.zip](QualityWings2GSX_GSX-only.zip)
-- "Complete": If you're also using PilotsDeck and/or the published Profiles, you find can everything in one Package ready to be used together. Download [QualityWings2GSX_Complete.zip](QualityWings2GSX_Complete.zip)
+- If you want the whole GSX and SimBrief Integration/Automation but don't have a StreamDeck / don't use PilotsDeck: Download [QualityWings2GSX.zip](QualityWings2GSX.zip)
+- If you're also using PilotsDeck and/or the published Profiles, you find can everything in one Package ready to be used together. Download [QualityWings2GSX-PilotsDeck.zip](QualityWings2GSX-PilotsDeck.zip)
 <br/>
 
 # Quick-Start
 Quick-Start Steps for advanced Users (detailed Explanation below):
 - Binary anywhere you want, Scripts to FSUIPC6 Folder.
-- Add the Binary under [Program] and the Scripts under [Auto.your-profile] in your FSUIPC6.ini
+- Add the Binary under [Program] and the Scripts as [Auto] Scripts (Global or Profile-specific) to your FSUIPC6.ini
 - Modify the Tank Capacities in the aircraft.cfg Files to 5737 / 5737 / 23278<br/>
-OR Modify the Tools .config File to the Capacities from your aircraft.cfg Files
+**OR** Modify the Tools .config File to the Capacities from your aircraft.cfg Files
 - Enter your SimBrief Pilots ID in the .config File
-- Configure GSX to not show the Refuel-Dialog
+- Configure GSX to not show the Refuel-Dialog in the Aircraft Configuration
 - Configure the Plane in SimBrief to use lbs: 190 lbs/Passenger, 55 lbs/Bag, 232809 lbs as Max Fuel Capacity (or whatever you use and fits to your aircraft.cfg)
 - Dispatch your OFP as you normally would, either in kgs or lbs - whatever you prefer
 - Call the GSX Services on whichever Way you want - everything is taken care of now. Be sure to enable your Battery before calling anything!
@@ -122,7 +122,6 @@ The File in this Repository and the "GSX only" Release are configured for Usage 
   - For Removal the Trigger is: GSX_AUTO is in Push-State *AND* Beacon is ON *AND* Jetway/GPU in Place *AND* Parking Brake is SET *AND* FwdExt Pwr is OFF.<br/>
   - For Call the Trigger is: GSX_AUTO is in Deboard-State *AND* Jetway/GPU not in Place *AND* Engines are STOPPED *AND* Beacon is OFF
   - YES, it will disconnect even if your APU is not Running - it does not automate your Job 😜
-  - The real if-Clause contains more to make sure it will only call it once 😉
 <br/>
 
 # FAQ
