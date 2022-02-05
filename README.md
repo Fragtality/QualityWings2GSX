@@ -28,14 +28,14 @@ OR Modify the Tools .config File to the Capacities from your aircraft.cfg Files
 - Enter your SimBrief Pilots ID in the .config File
 - Configure GSX to not show the Refuel-Dialog
 - Configure the Plane in SimBrief to use lbs: 190 lbs/Passenger, 55 lbs/Bag, 232809 lbs as Max Fuel Capacity (or whatever you use and fits to your aircraft.cfg)
-- Dispatch your OFP as you normally would, either in kgs or lbs - whatever you preferr
+- Dispatch your OFP as you normally would, either in kgs or lbs - whatever you prefer
 - Call the GSX Services on whichever Way you want - everything is taken care of now. Be sure to enable your Battery before calling anything!
 
 <br/>
 
 # Installation
 ## QualityWings2GSX
-You can basically place it anywhere you want - preferrably with your other Addons / Sim Files. Your AV-Scanner might being triggered, so place it in a Location where it is excluded.<br/>
+You can basically place it anywhere you want - preferrably with your other Addons / Sim Files. Your AV-Scanner might being triggered, so place it in a Location where it is excluded. Sometimes, even when excluded by your AV, Windows-Security might cause Problem: try to Unblock-File it via Powershell.<br/>
 The Tool is intended to being started when the Sim is running and the QualityWings 787 is loaded - otherwise it will just exit. You can, of course, start it manually or let it start automatically via FSUIPC. Add this to your FSUIPC6.ini for an automatic Start:
 ```
 [Programs]
@@ -128,7 +128,7 @@ The File in this Repository and the "GSX only" Release are configured for Usage 
 # FAQ
 **Do I really need all of these Files?**<br/>
 Excluding the PilotsDeck Profiles: *YES*, if you want the whole GSX / SimBrief Automation & Integration Functionality!<br/>
-If you just want the SimBrief / GSX Integration: *NO*, you just need the Binary! You can call and handle all Ground-Services like before but now with them loading the Weights from your OFP.
+If you just want the SimBrief / GSX Integration: *NO*, you just need the Binary! You can call and handle all Ground-Services like before but now with them loading the Weights from your OFP.<br/>
 If you just want the GSX Automation: *NO*, you just need the Scripts! You have to (un)load the Plane like before, but all the Doors, Chocks/ExtPwr and Jetway/GPU will be handled automatically.
 <br/><br/>
 **I don't have a registered Version of FSUIPC**<br/>
@@ -160,23 +160,46 @@ The Script doesn't check that - all Jetways are assumed of having a Ground Power
 **What if the Stand has no Underground Fuel? Does it support multiple Trips?**<br/>
 No Problem, it works with both and supports multiple Trips! In either Case: the loaded Fuel is only increased as long the Fuel-Hose is connected (when slow-Joe finally manages to get it connected - he is sooo slooow! 😆)
 <br/><br/>
-**I've less Fuel in Tanks than before calling Refuel!**<br/>
+**The Fuel-Truck is not showing up when I'm at a Turn-Around!**<br/>
+If you're sitting on a Parking Stand and deboarded the Plane via Stairs: It seems to be a Bug within GSX (it is not clear yet). The Stairs get never out of the "moving" state and GSX wont send a Truck when they are moving! The Script is trying to dismiss the Stairs (if no Jetway connected) when it switches from Deboarding to Refuel State. But it is useless ... regardless who dismisses the Stairs, their State will not get out of "moving"<br/>
+You either have to avoid such Turn-Arounds OR do a "Reset Position" with Tow Power ON before the Binary tries to load the new OFP (5 Minutes after Deboarding has finished)
+<br/><br/>
+**I've less Fuel in Tanks than before calling Refuel! / The Refuel does not stop!**<br/>
 The Binary will indeed *decrease* the Fuel in all of your Tanks or the Center Tank, if you are above the planned Weight! It's very Purpose is to get you exactly what is in the SimBrief OFP.<br/>
-If you should do that, there is a Chance of GSX never stopping with the Refuel Process! GSX monitors the Capacity increasing, so a Decrease won't trigger GSX' Logic to end the Refuel Process! It can be fixed when setting a higher Value manually in the Payload-Dialog. But: just don't use to "pump-out" Fuel 😉<br/>
+If you should do that, there is a Chance of GSX never stopping with the Refuel Process! GSX monitors the Capacity increasing, so a Decrease won't trigger GSX' Logic to end the Refuel Process! It can be fixed when setting a higher Value manually in the Payload-Dialog. But: just don't use it to "pump-out" Fuel 😉<br/>
 <br/><br/>
 **So I can't use the APU while Refueling?**<br/>
-Sure you can! The Fuel Capacity will still be increasing and will stop increasing when the Target is reached - GSX's Logic will be triggered and the Refuel Process stops.<br/>
-The Binary itself uses the right Wing Tank as Refrence for the Wings, it too will stop the Refueling even when the APU is decreasing the Quantity in the left Wing Tank!
+That's not a Problem, you can have it running! The Fuel Capacity will still be increasing and will stop increasing when the Target is reached - GSX's Logic will be triggered and the Refuel Process stops.<br/>
+The Binary itself uses the right Wing Tank as Reference for the Wings, it too will stop the Refueling even when the APU is decreasing the Quantity in the left Wing Tank!
+<br/><br/>
+**Do I need to set the Fuel Tanks to a specific Value before calling Refuel?**<br/>
+Depends if you are using the QW787_AUTO Script (respectively the QW_INIT Function) from the PilotsDeck Integration. The Init-Function will set your Plane to 1.5% in the Wings and 0% in the Center when used. If not using it: make sure your Fuel is below your planned Weight before calling Refuel to avoid Problems (see above)!
 <br/><br/>
 **The Binary is not running! / I can't see a Window! / How can I know what the Tool is doing?**<br/>
-This is on Purpose, it is compiled to not open Window and do its work "silently" in the Background!<br/>
+This is on Purpose, it is compiled to not open a Window and do its work "silently" in the Background!<br/>
 If you really want to know what it is doing: have a look at the Log-File!
 <br/><br/>
-
-****<br/>
-
+**What are these Service / Cycle States? How they a triggered?**<br/>
+The GSX_AUTO Script has the following States (can be read via Lvar "GSX_AUTO_SERVICE_STATE"):
+- 0/Refuel: The Refuel truck will be requested when GSX_AUTO_SERVICE_CYCLE is called. The State will change if the Truck is in Place OR the Boarding is started.
+- 1/Cater: The Catering will be requested when GSX_AUTO_SERVICE_CYCLE is called. The State will change if the Trucks are in Place OR the Boarding is started.
+- 2/Board: The Boarding will be started when GSX_AUTO_SERVICE_CYCLE is called. The State will change when GSX marks the Boarding as being completed.
+- 3/Push: Either the Push-Back is requested or the Engine-Start is confirmed. The State will change when GSX marks the Push-Back as being completed.
+- 4/Taxi-Out: The State while the Plane is still on the Ground.
+- 5/Flight: The State will always be set when the Plane is not on the Ground.
+- 6/Taxi-In: The State after the Plane is on the Ground again and Engines are still running (as recognized by GSX)
+- 7/Deboard: The Deboarding will be started when GSX_AUTO_SERVICE_CYCLE is called (if don't let QW787_SYNC request it for you). The State is active the Engines are stopped and as long the Deboarding is not marked as being completed. After that it will start over with 0/Refuel!
+<br/>
+The Binary has the following States (internaly):
+- 0/Pre-Flight: The State is only used once - on your first Leg when the Sim/Plane is loaded. When you enable the Batteries, the OFP will be loaded and it goes in the next State. If the Plane is not on the Ground, the OFP will be loaded and the State advances directly to Flight.
+- 1/At Depature Gate: The State as long Refueling and Boarding are not finished (Catering does not matter). Advances to the next State as soon as these two Services are finished.
+- 2/Taxi Out: The State as long as the Plane is still on Ground (Push-Back State does not matter).
+- 3/Flight: The State as long the Plane is in the Air.
+- 4/Taxi In: The State when the Plane has touched down and Engines are still running.
+- 5/At Arrival Gate: The State while the Plane is being deboarded. Advances when Deboarding is finished.
+- 6/Turn-Around: The Binary will sleep for the first 5 Minutes in this State. After that it checks every 60s for a new OFP (if not directly found). When a new OFP has been found, it starts over at 1/At Depature Gate.
 <br/><br/>
 
-****<br/>
-
+**What if I need Help with that?**<br/>
+Just contact me via PM in the AVSIM, FSDT or QW Forums!
 <br/><br/>
