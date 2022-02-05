@@ -1,8 +1,9 @@
 ---@diagnostic disable: undefined-global
 
+ipc.sleep(15000) --Wait some time before really starting, to avoid "Load Order Problems"
+
 ----------------------------------
 -- CONFIGURATION
-
 local delayOperator = 7500		--Delay for manual Operator Selection before next Action (applied when not connected and in Refuel State)
 local writeOffsets = false		--Write Offsets for display on PilotsDeck
 local GSX_OFFSET_PAX = 0x66C0 	--String, Length 5
@@ -10,7 +11,15 @@ local GSX_OFFSET_CARGO = 0x66C5 --String, Length 6
 
 ----------------------------------
 -- Variables
--- ipc.sleep(15000) --Wait some time before really starting, to avoid "Load Order Problems"
+
+
+local PLDFSL = nil
+local aircraft = ipc.readSTR(0x3C00,256)
+if string.find(aircraft, "FSLabs") and (string.find(aircraft, "A320") or string.find(aircraft, "A321") or string.find(aircraft, "A319")) then
+	PLDFSL = require "PLDFSL"
+elseif string.find(aircraft, "QualityWings 787") then
+	ipc.sleep(15000) --Give the QW787 init process some time to avoid "Load Order Problems"
+end
 
 local GSX_AUTO_SERVICE_STATE = 0
 ipc.createLvar("GSX_AUTO_SERVICE_STATE", GSX_AUTO_SERVICE_STATE)
@@ -32,13 +41,7 @@ if debugArrival then
 	ipc.writeLvar("FSDT_GSX_NUMPILOTS", 0);
 end
 
-local PLDFSL = nil
-local aircraft = ipc.readSTR(0x3C00,256)
-if string.find(aircraft, "FSLabs") and (string.find(aircraft, "A320") or string.find(aircraft, "A321") or string.find(aircraft, "A319")) then
-	PLDFSL = require "PLDFSL"
-elseif string.find(aircraft, "QualityWings 787") then
-	ipc.sleep(45000) --Give the QW787 init process some time (seems to trigger Ind Lights with RAAS and Auto-Scripts?!)
-end
+
 
 
 ----------------------------------
@@ -120,11 +123,9 @@ function GSX_AUTO_SYNC_CYCLE()
 	if ipc.readLvar("FSDT_GSX_JETWAY") == 5 or ipc.readLvar("FSDT_GSX_GPU_STATE") == 5 then
 		GSX_AUTO_CONNECTED = 1
 		ipc.writeLvar("GSX_AUTO_CONNECTED", GSX_AUTO_CONNECTED)
-		ipc.log("GSX_AUTO: Connected")
 	else
 		GSX_AUTO_CONNECTED = 0
 		ipc.writeLvar("GSX_AUTO_CONNECTED", GSX_AUTO_CONNECTED)
-		ipc.log("GSX_AUTO: Disconnected")
 	end
 
 	-- OFFSETS
@@ -198,10 +199,10 @@ function GSX_AUTO_CONNECT(connect)
 	end
 	local gsxJetway = ipc.readLvar("FSDT_GSX_JETWAY")
 	if gsxJetway ~= 2 then
-		ipc.log("GSX_AUTO_CONNECT: Connect to Jetway")
+		ipc.log("GSX_AUTO_CONNECT: Dis/Connect Jetway")
 		GSX_AUTO_JETWAY_TOGGLE2()
 	else
-		ipc.log("GSX_AUTO_CONNECT: Connect to GPU")
+		ipc.log("GSX_AUTO_CONNECT: Dis/Connect GPU")
 		GSX_AUTO_GPU()
 	end
 	ipc.sleep(500)
