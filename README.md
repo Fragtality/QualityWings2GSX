@@ -28,7 +28,7 @@ Quick-Start Steps for advanced Users (detailed Explanation below):
 - Enter your SimBrief Pilots ID in the .config File
 - Configure GSX to not show the Refuel-Dialog in the Aircraft Configuration
 - Configure the Plane in SimBrief to use lbs: 190 lbs/Passenger, 55 lbs/Bag, 232809 lbs as Max Fuel Capacity (or whatever you use and fits to your aircraft.cfg)
-- Dispatch your OFP as you normally would, either in kgs or lbs - whatever you prefer
+- Dispatch your OFP as you normally would, either in kgs or lbs - whatever you prefer. Make sure to use the default ICAO Code/Aircraft Name.
 - Call the GSX Services on whichever Way you want - everything is taken care of now. Be sure to enable your Battery before calling anything!
 
 <br/>
@@ -93,6 +93,7 @@ Also note that this Value scales with (P3D's) Time Acceleration, so when using 2
 
 ### SimBrief
 Configure the Plane in SimBrief with **lbs** - even when you use only OFP's in kgs! The Passenger-Weight to be used is *190*lbs and Bag-Weight is *55*lbs. Whichever option you choose for the Fuel-Capacity: use the Total Capacity in gallons from your aircraft.cfg, multiply it with *6.69921875* and use the Result as the Max Fuel Capacity in SimBrief.<br/>
+Make sure you use default ICAO Code and Aircraft Name (B789 / B787-9 for Example). The Tools checks if the current OFP matches your Type/Variant loaded.<br/>
 
 ### GSX
 Make sure you're Installation is updated and uses the Version released from January 31st 2022! FSDT has added Support for the QW787's Chocks, you can now release the Parking Brake and GSX will continue with its Service.<br/>
@@ -213,7 +214,7 @@ The Binary has the following States (internaly):
 
 **I have installed all that and now the QW start with all the Lights on!**<br/>
 The QW787 is very vulnerable to "Loading Order Issues" it seems. For Reasons unknown, some Combination of QW and (GSX or FSUIPC Auto Scripts or RAAS Pro or whatever) can trigger the 787 being loaded with all Indication Lights on (the Switch is permanently in On/Test Position). The Plane is working normally, so let the Init-Script take care of that or move the Switch manually.<br/>
-I've tried to avoid it as much as I can with the Scripts sleeping the first 30 Seconds before doing anything. You might try playing with the the FSUIPC Options "InitDelay" (30-45) and "InitialStallTime" (15-20), I could at least reduce this Effect with that.<br/>
+I've tried to avoid it as much as I can with the Scripts sleeping the first 30 Seconds before doing anything. You might try playing with the the FSUIPC Options "InitDelay" (30-45) and "InitialStallTime" (15-20), I could reduce this Effect with that sometimes. BUT: It still happens and somehow breakes the FSUIPC's Axis Processing for the Plane (e.g. to have the Reverser on the Throttle Axis) - so I don't use that personally and just live with this Effect.<br/>
 Should I EVER find the real Root-Cause, I'll let you know and will fix or at least try to workaround that! So far FSDT and FS2Crew denied that GSX/RAAS could trigger something like that. QualityWings does not have answered yet.
 <br/><br/>
 
