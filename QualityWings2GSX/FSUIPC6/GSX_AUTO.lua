@@ -6,6 +6,7 @@ ipc.sleep(15000) --Wait some time before really starting, to avoid "Load Order P
 -- CONFIGURATION
 local delayOperator = 7500		--Delay for manual Operator Selection before next Action (applied when not connected and in Refuel State)
 local writeOffsets = false		--Write Offsets for display on PilotsDeck
+local opStairsDeboard = false	--Operate the Stairs after Deboard (not needed anymore, GSX Bug is fixed.)
 local GSX_OFFSET_PAX = 0x66C0 	--String, Length 5
 local GSX_OFFSET_CARGO = 0x66C5 --String, Length 6
 
@@ -89,7 +90,7 @@ function GSX_AUTO_SYNC_CYCLE()
 	elseif GSX_AUTO_SERVICE_STATE == 7 and deboard_state == 6 then
 		GSX_AUTO_SERVICE_STATE = 0
 		ipc.log("GSX_AUTO: Service State switched from Deboard to Refuel")
-		if ipc.readLvar("FSDT_GSX_JETWAY") == 2 and ipc.readLvar("FSDT_GSX_STAIRS") == 5 then --Try to remove Stairs for them not blocking the Refuel ...
+		if opStairsDeboard and ipc.readLvar("FSDT_GSX_JETWAY") == 2 and ipc.readLvar("FSDT_GSX_STAIRS") == 5 then --Try to remove Stairs for them not blocking the Refuel ...
 			ipc.log("GSX_AUTO: Remove Stairs after Deboard")
 			GSX_AUTO_MENU(1500)
 			GSX_AUTO_KEY(7)
