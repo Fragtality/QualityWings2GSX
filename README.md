@@ -61,7 +61,7 @@ If you don't have a FSUIPC Profile for the QW787, start them as "Global"/"Defaul
 If you plan to use the GSX_AUTO Script with other Planes, it has to be started as "Global"/"Default" Auto-Script!<br/>
 If you're using the PilotsDeck Profile I have published: add the QW787_AUTO as second Script (GSX_AUTO -> QW787_AUTO -> QW787_SYNC)<br/><br/>
 ## Complete Release with PilotsDeck Profiles
-- Follow the Readme for the QW787 Profiles in the [PilotsDeck Repository](https://github.com/Fragtality/PilotsDeck/tree/master/Integrations/QualityWings%20787)!
+- Follow the Readme for the QW787 Profiles in the [PilotsDeck Repository](https://github.com/Fragtality/PilotsDeck/tree/master/Integrations/QualityWings%20787%20(P3D))!
 - The Script Files in the Complete Release are configured accordingly to be used together with QualityWings2GSX and the PilotsDeck Profiles. The Basic Configurations is already done.
 <br/>
 
